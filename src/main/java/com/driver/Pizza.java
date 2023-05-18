@@ -25,17 +25,13 @@ public class Pizza {
 //		this.bill = bill;
 //	}
 
-	public String getBill() {
-		bill += "Total Price: " + price + "\n";
-		return this.bill;
-	}
-
 	private static int vegPizzaBasePrice = 300;
 	private static int nonVegPizzaBasePrice = 400;
 	private int extraCheesePrice = 80;
 	private int toppingForVegPrice = 70;
 	private int toppingForNonVegPrice = 120;
-	private int paperBagPrice = 20;
+	private int toppingPrice;
+	private static int paperBagPrice = 20;
 	private boolean isExtraCheese;
 	private boolean isTopping;
 	private boolean takeAway;
@@ -43,7 +39,8 @@ public class Pizza {
 	public Pizza(Boolean isVeg) {
 		this.isVeg = isVeg;
 		this.price = isVeg ? vegPizzaBasePrice : nonVegPizzaBasePrice;
-		this.bill = "Base Price Of The Pizza: " + this.price + "\n";
+		this.bill = "Base Price Of The Pizza: " + this.price + "\n";		
+		toppingPrice = 0;
 		isExtraCheese = false;
 		isTopping = false;
 		takeAway = false;
@@ -54,30 +51,43 @@ public class Pizza {
 		 */
 	}
 
+	public String getBill() {
+		int extraCheese = isExtraCheese? extraCheesePrice: 0;
+		int extraTopping = isTopping? toppingPrice: 0;
+		int bagPrice = takeAway? paperBagPrice: 0;
+		bill += "Extra Cheese Added: " + extraCheese + "\n";		
+		bill += "Extra Toppings Added: " + extraTopping + "\n";		
+		bill += "Paperbag Added: " + bagPrice + "\n";	
+		bill += "Total Price: " + price + "\n";
+		return this.bill;
+	}
+	
 	public void addExtraCheese() {
 		if (!isExtraCheese) {
 			price += extraCheesePrice;
-			bill += "Extra Cheese Added: " + extraCheesePrice + "\n";
+//			bill += "Extra Cheese Added: " + extraCheesePrice + "\n";
 			isExtraCheese = true;
 		}
 	}
 
 	public void addExtraToppings() {
+		toppingPrice = isVeg? toppingForVegPrice: toppingForNonVegPrice;
 		if (!isTopping) {
-			if (isVeg) {
-				bill += "Extra Toppings Added: " + toppingForVegPrice + "\n";
-				price += toppingForVegPrice;
-			} else {
-				bill += "Extra Toppings Added: " + toppingForNonVegPrice + "\n";
-				price += toppingForNonVegPrice;
-			}
+//			if (isVeg) {
+////				bill += "Extra Toppings Added: " + toppingForVegPrice + "\n";
+//				price += toppingForVegPrice;
+//			} else {
+////				bill += "Extra Toppings Added: " + toppingForNonVegPrice + "\n";
+//				price += toppingForNonVegPrice;
+//			}
+			toppingPrice = isVeg? toppingForVegPrice: toppingForNonVegPrice;			
 			isTopping = true;
 		}
 	}
 
 	public void addTakeaway() {
 		if (!takeAway) {
-			bill += "Paperbag Added: " + paperBagPrice + "\n";
+//			bill += "Paperbag Added: " + paperBagPrice + "\n";
 			price += paperBagPrice;
 			takeAway = true;
 		}
